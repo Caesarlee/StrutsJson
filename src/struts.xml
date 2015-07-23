@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<!-- 指定struts.xml文件的根元素 -->
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<!-- 配置包,包名为default,该包继承了Struts 2框架的json-default -->
+	<package name="default" namespace="/user" extends="json-default">
+		<!-- 定义名为hello的Action,该Action的处理类为com.action.TestAction,并映射到success.jsp页面 -->
+		<action name="login" class="com.action.LoginAction" method="login">
+			<result type="json" />
+		</action>
+
+		<action name="register" class="com.action.RegisterAction"
+			method="register">
+			<result type="json" />
+		</action>
+
+
+		<action name="query" class="com.action.QueryAction" method="query">
+			<result type="json" />
+		</action>
+
+
+		<!-- 用户收藏商家接口 -->
+		<action name="changeState" class="com.action.lzq.CollectionInf"
+			method="changeState">
+			<result type="json" />
+			<!--返回值类型设置为json,不设置返回页面 -->
+		</action>
+	</package>
+
+	<package name="store" namespace="/store" extends="json-default">
+		<action name="fetchStores" class="com.action.store.TotalStoreAction">
+			<result type="json" />
+		</action>
+		<action name="fetchStore" class="com.action.store.TotalStoreAction"
+			method="storeByType">
+			<result type="json" />
+		</action>
+		<!-- 获取附加商家的Action -->
+		<action name="nearbyStores" class="com.action.store.NearbyTotalStore">
+			<result type="json" />
+		</action>
+		<!-- 获取附加某类商家的Action -->
+		<action name="nearbyStore" class="com.action.store.NearbyTotalStore"
+			method="storeByType">
+			<result type="json" />
+		</action>
+		<!-- 搜索商家 -->
+		<action name="searchStore" class="com.action.store.SearchStore">
+			<result type="json" />
+		</action>
+		<action name="collectedStore" class="com.action.store.CollectedStoreAction">
+			<result type="json" />
+		</action>
+		<!-- 进入具体商家的action -->
+		<action name="specificStore" class="com.action.lzq.DefaultUI"
+			method="defUI">
+			<result type="json" />
+			<!--返回值类型设置为json,不设置返回页面 -->
+
+		</action>
+		<!-- 显示商家评价的action -->
+		<action name="storeComment" class="com.action.lzq.ShopComment"
+			method="comment">
+			<result type="json" />
+			<!--返回值类型设置为json,不设置返回页面 -->
+		</action>
+		<!-- 显示商家信息的action -->
+		<action name="storeDetail" class="com.action.lzq.ShopDetail"
+			method="shopdetail">
+			<result type="json" />
+			<!--返回值类型设置为json,不设置返回页面 -->
+		</action>
+	</package>
+	<package name="order" namespace="/order" extends="json-default">
+		<action name="fetchOrders" class="com.action.order.OrderAction">
+			<result type="json" />
+		</action>
+		<action name="fetchOrder_product" class="com.action.order.DetailOrderAction">
+			<result type="json" />
+		</action>
+		<!-- 提交订单action -->
+		<action name="dingdansubmit" class="com.action.lzq.DingdanSubmit"
+			method="submitDingdan">
+			<result type="json" />
+			<!--返回值类型设置为json,不设置返回页面 -->
+		</action>
+		<action name="commitOrder" class="com.action.order.CommitOrder"
+			method="commitOrder">
+			<result type="json" />
+			<!--返回值类型设置为json,不设置返回页面 -->
+		</action>
+
+	</package>
+	<package name="comment" namespace="/comment" extends="json-default">
+		<action name="commentOrder" class="com.action.comment.CommentAction">
+			<result type="json" />
+		</action>
+
+	</package>
+	<package name="address" namespace="/address" extends="json-default">
+		<action name="customerAddress" class="com.action.address.AddressAction">
+			<result type="json" />
+		</action>
+		<action name="addAddress" class="com.action.address.AddAddress">
+			<result type="json" />
+		</action>
+	</package>
+
+	<package name="seller" namespace="/seller" extends="json-default">
+		<!-- 商家开始营业获知停止营业 -->
+		<action name="openClose" class="com.seller.action.OpenOrClose"
+			method="openOrClose">
+			<result type="json" />
+		</action>
+	</package>
+	<!-- web页面商家的相关action -->
+	<package name="webPage" namespace="/seller" extends="struts-default">
+
+		<action name="sellerRegister" class="com.seller.action.RegisterAction"
+			method="register">
+			<result name="success">/s_index.jsp</result>
+			<result name="failure">/s_register.jsp</result>
+		</action>
+		<action name="sellerLogin" class="com.seller.action.LoginAction"
+			method="login">
+			<result name="success" type="chain">mainPage</result>
+			<result name="failure">/s_index.jsp</result>
+
+		</action>
+
+		<!-- action跳转 -->
+		<action name="mainPage" class="com.seller.action.MainPageAction">
+			<result name="success">/s_mainPage.jsp</result>
+
+		</action>
+		<action name="modifyProduct" class="com.seller.action.product.ModifyProduct"
+			method="modify">
+			<result name="success">/s_modifyProduct.jsp</result>
+			<result name="failure">/s_modifyProduct.jsp</result>
+
+		</action>
+		<action name="deleteProduct" class="com.seller.action.product.DeleteProduct"
+			method="delete">
+			<result name="success" type="chain">mainPage</result>
+			<result name="failure" type="chain">mainPage</result>
+
+		</action>
+		<action name="addProduct" class="com.seller.action.product.AddProduct"
+			method="add">
+			<result name="success" type="chain">mainPage</result>
+			<result name="failure" type="chain">mainPage</result>
+
+		</action>
+		<action name="orderCenter" class="com.seller.action.order.DisplayOrder"
+			method="displayorder">
+			<result name="success">/s_orderCenter.jsp</result>
+			<result name="failure">/s_orderCenter.jsp</result>
+
+		</action>
+
+		<action name="orderDetail" class="com.seller.action.order.OrderDetailAction"
+			method="displayorder">
+			<result name="success">/s_orderDetail.jsp</result>
+			<result name="failure">/s_orderDetail.jsp</result>
+
+		</action>
+		<!-- 删除订单action -->
+		<action name="deleteOrder" class="com.seller.action.order.DeleteOrderAction"
+			method="deleteOrder">
+			<result name="success" type="chain">orderCenter</result>
+			<result name="failure" type="chain">orderCenter</result>
+		</action>
+		<action name="storeInfo" class="com.seller.action.StoreInfo"
+			method="storeInfo">
+			<result name="success">/s_storeInfo.jsp</result>
+			<result name="failure">/s_storeInfo.jsp</result>
+
+		</action>
+
+		<action name="storeInfoModify" class="com.seller.action.StoreInfoModify"
+			method="infoModify">
+			<result name="success" type="chain">storeInfo</result>
+			<result name="failure" type="chain">storeInfo</result>
+
+		</action>
+
+	</package>
+
+	<!--获取数据库中的表 -->
+	<package name="database" namespace="/database" extends="struts-default">
+		<action name="customer" class="com.database.action.CustomerAction"
+			method="fetchCustomer">
+			<result name="success">/mysql_customer.jsp</result>
+			<result name="failure">/mysql_customer.jsp</result>
+		</action>
+		<action name="address" class="com.database.action.AddressAction"
+			method="fetchAddress">
+			<result name="success">/mysql_address.jsp</result>
+			<result name="failure">/mysql_address.jsp</result>
+		</action>
+		<action name="comment" class="com.database.action.CommentAction"
+			method="fetchComment">
+			<result name="success">/mysql_comment.jsp</result>
+			<result name="failure">/mysql_comment.jsp</result>
+		</action>
+		<action name="customer_collection" class="com.database.action.CustomerCollectionAction"
+			method="fetchCustomerCollection">
+			<result name="success">/mysql_customerCollection.jsp</result>
+			<result name="failure">/mysql_customerCollection.jsp</result>
+		</action>
+		<action name="dingdan" class="com.database.action.DingDanAction"
+			method="fetchOrders">
+			<result name="success">/mysql_dingdan.jsp</result>
+			<result name="failure">/mysql_dingdan.jsp</result>
+		</action>
+		<action name="dingdan_details" class="com.database.action.DingDanDetailsAction"
+			method="fetchOrderDetail">
+			<result name="success">/mysql_dingdan_details.jsp</result>
+			<result name="failure">/mysql_dingdan_details.jsp</result>
+		</action>
+		<action name="product" class="com.database.action.ProductAction"
+			method="fetchProduct">
+			<result name="success">/mysql_product.jsp</result>
+			<result name="failure">/mysql_product.jsp</result>
+		</action>
+		<action name="shop" class="com.database.action.ShopAction"
+			method="fetchShops">
+			<result name="success">/mysql_shop.jsp</result>
+			<result name="failure">/mysql_shop.jsp</result>
+		</action>
+		<action name="confirm" class="com.database.action.ConfirmAction"
+			method="confirm">
+			<result name="success" type="chain">shop</result>
+			<result name="failure" type="chain">shop</result>
+		</action>
+	</package>
+</struts>
